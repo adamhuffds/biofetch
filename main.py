@@ -14,8 +14,9 @@ from uniprot import fetch_uniprot, display_uniprot
 console = Console()
 
 def show_panel():
+    console.clear()
     print("")
-    print(Panel("Welcome to [bold green]BioFetch[/bold green]! Type help for a list of available commands.", title="BioFetch", subtitle="Protein Data Explorer"))
+    print(Panel("Welcome to [bold green]BioFetch[/bold green]! Type help for a list of available commands.", title="[bold green]BioFetch[/bold green]"))
     print("")
 
 class BioFetch(cmd.Cmd):
@@ -35,14 +36,17 @@ class BioFetch(cmd.Cmd):
     
     def do_clear(self, line):
         "Clear the terminal screen"
-        console.clear()
         show_panel()
 
     def do_uniprot(self, line):
         "Query UniProt using UniProt ID"
-        uniprot_id = Prompt.ask("\nPlease enter a UniProt ID\n")
+        uniprot_id = Prompt.ask("\nPlease enter a UniProt ID")
         data = fetch_uniprot(uniprot_id)
-        display_uniprot(data)
+        
+        if data is not None:
+            display_uniprot(data)
+        else:
+            pass
 
     def do_ncbi(self, line):
         "Query NCBI using Gene ID"
